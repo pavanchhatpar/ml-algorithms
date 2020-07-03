@@ -1,0 +1,57 @@
+body={
+    "mappings": {
+        "_doc": {
+        "properties": {
+            "text": {
+            "type":        "text",
+            "term_vector": "yes",
+            "analyzer":    "my_analyzer"
+            }
+        }
+        }
+    },
+    "settings": {
+        "analysis": {
+        "filter": {
+            "english_stop": {
+            "type":       "stop",
+            "stopwords":  "_english_" 
+            }
+        },
+        "analyzer": {
+            "my_analyzer": {
+            "tokenizer": "my_tokenizer",
+            "filter": [
+                "lowercase",
+                "english_stop"
+            ]
+            }
+        },
+        "tokenizer": {
+            "my_tokenizer": {
+            "type": "ngram",
+            "min_gram": 3,
+            "max_gram": 3,
+            "token_chars": [
+                "letter",
+                "digit"
+            ]
+            }
+        }
+        }
+    }
+}
+
+def parse(docs):
+    for doc in docs:
+        yield {
+            '_id':doc["id"],
+            'text':doc['text']
+        }
+
+for ok, res in es.streaming_bulk(actions=parse([{'id':3,'text': 'The slow brown brown turtle beats the rabbit'},{'id':4,'text':'The quick brown fox jumps over the lazy dog'}]), doc_type='_doc', chunk_size=10):
+    if not ok:
+        action, res = res.popitem()
+        print(action, res)
+
+escl.mtermvectors(index="timepass", doc_type="_doc", ids="1", term_statistics=True)

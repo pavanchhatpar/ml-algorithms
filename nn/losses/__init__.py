@@ -1,0 +1,2 @@
+from .square_loss import MeanSquareLoss
+from .softmax_cross_entropy import SoftmaxCrossEntropy

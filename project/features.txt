@@ -1,0 +1,29 @@
+# query independent
+# document_popularity - number of times document is called to be relevant across training queries (probably normalized)
+
+# query dependent
+cosine similarity
+LM dirichlet
+JM smoothing likelihood
+# inverse query likelihood?
+# BM25 score
+number of query terms in document
+ratio of query tokens in document
+sum of idf of query terms in document
+sum tf of query terms in document
+max tf of query terms in document
+min tf of query terms in document
+mean tf of query terms in document
+variance tf of query terms in document
+sum tfidf of query terms in document
+max tfidf of query terms in document
+min tfidf of query terms in document
+mean tfidf of query terms in document
+variance tfidf of query terms in document
+es-built in
+
+elasticsearch 4.5.1
+
+java -jar RankLib-2.1-patched.jar -train ranklibdata_train.txt -test ranklibdata_test.txt -ranker 6 -metric2t NDCG@10 -tree 200
+
+java -jar RankLib-2.1-patched.jar -train ranklibdata_train.txt -test ranklibdata_test.txt -ranker 8 -metric2t MAP
